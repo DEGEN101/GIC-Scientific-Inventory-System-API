@@ -1,0 +1,31 @@
+{
+  "name": "stock-system-crud-sql-server",
+  "version": "1.0.0",
+  "description": "Node.js CRUD SQL Server (MSSQL) for the GIC Scientific Stock System",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "node",
+    "js",
+    "crud",
+    "sql",
+    "server",
+    "mssql",
+    "express",
+    "sequelize",
+    "rest",
+    "api"
+  ],
+  "author": "Ntando Raji",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^5.1.0",
+    "mssql": "^11.0.1",
+    "sequelize": "^6.37.7",
+    "tedious": "^18.6.1"
+  }
+}
