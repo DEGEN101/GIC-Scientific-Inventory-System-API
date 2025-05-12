@@ -1,4 +1,3 @@
----
 project:
   name: "GIC Scientific – Inventory System – API"
   description: >
@@ -76,4 +75,3 @@ license: "© 2025 GIC Scientific. All rights reserved."
 
 contact:
   note: "For questions or collaboration, contact the GIC Scientific development team."
----
