@@ -25,6 +25,7 @@ const database = {};
 database.sql = sql;
 database.poolPromise = poolPromise;
 
-database.employees = require("./employees.model.js")(sql, poolPromise)
+database.employees = require("./employees.model.js")(sql, poolPromise);
+database.stockItem = require("./stockItem.model.js")(sql, poolPromise);
 
 module.exports = database;

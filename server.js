@@ -21,7 +21,9 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to the GIC Scientific Stock System Server." });
 });
 
+// api routes
 require("./routes/employee.routes")(app);
+require("./routes/stockItem.routes")(app);
 
 app.listen(PORT, () => {
   console.log(`[+] Server running at http://localhost:${PORT}`);
