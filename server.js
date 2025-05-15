@@ -25,6 +25,7 @@ app.get("/", (req, res) => {
 require("./routes/employee.routes")(app);
 require("./routes/stockItem.routes")(app);
 require("./routes/inventory.routes")(app);
+require("./routes/stockItemCategory.routes")(app);
 
 app.listen(PORT, () => {
   console.log(`[+] Server running at http://localhost:${PORT}`);
