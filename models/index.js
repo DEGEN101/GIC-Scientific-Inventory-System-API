@@ -30,5 +30,6 @@ database.stockItem = require("./stockItem.model.js")(sql, poolPromise);
 database.inventory = require("./inventory.model.js")(sql, poolPromise);
 database.stockItemCategory = require("./stockItemCategory.model.js")(sql, poolPromise);
 database.stockItemGroup = require("./stockItemGroup.model.js")(sql, poolPromise);
+database.uom = require("./uom.model.js")(sql ,poolPromise);
 
 module.exports = database;
