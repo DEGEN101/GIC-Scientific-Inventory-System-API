@@ -1,7 +1,7 @@
 const database = require("../models");
 const createCrudController = require("../utils/createCrudController");
 
-const StockItemCategory = database.stockItemCategory;
-const controller = createCrudController(StockItemCategory);
+const StockItemGroup = database.stockItemGroup;
+const controller = createCrudController(StockItemGroup);
 
 module.exports = controller;

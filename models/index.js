@@ -29,5 +29,6 @@ database.employees = require("./employees.model.js")(sql, poolPromise);
 database.stockItem = require("./stockItem.model.js")(sql, poolPromise);
 database.inventory = require("./inventory.model.js")(sql, poolPromise);
 database.stockItemCategory = require("./stockItemCategory.model.js")(sql, poolPromise);
+database.stockItemGroup = require("./stockItemGroup.model.js")(sql, poolPromise);
 
 module.exports = database;
