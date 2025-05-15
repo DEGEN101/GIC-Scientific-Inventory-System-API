@@ -1,14 +1,15 @@
+const registerCrudRoutes = require("../utils/registerCrudRoutes.js");
+
 module.exports = (app) => {
     const stockItem = require("../controllers/stockItem.controller.js");
 
     const router = require("express").Router();
 
-    router.post("/", stockItem.create);
-    router.get("/", stockItem.findAll);
-    router.get("/:id", stockItem.findById);
+    // Register generic CRUD routes
+    registerCrudRoutes(router, stockItem);
+
+    // Add custom route(s) below
     router.get("/sku/:sku", stockItem.findBySKU);
-    router.put("/:id", stockItem.update);
-    router.delete("/:id", stockItem.delete);
 
     app.use("/api/stockItem", router);
 }

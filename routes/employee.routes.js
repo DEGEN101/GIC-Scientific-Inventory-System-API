@@ -1,13 +1,14 @@
+const registerCrudRoutes = require("../utils/registerCrudRoutes.js");
+
 module.exports = (app) => {
     const employees = require("../controllers/employees.controller.js");
 
     const router = require("express").Router();
 
-    router.post("/", employees.create);
-    router.get("/", employees.findAll);
-    router.get("/:id", employees.findOne);
-    router.put("/:id", employees.update);
-    router.delete("/:id", employees.delete);
+    // Register generic CRUD routes
+    registerCrudRoutes(router, employees);
+
+    // Add custom route(s) below
 
     app.use('/api/employees', router);
 }

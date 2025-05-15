@@ -20,7 +20,7 @@ module.exports = {
         }
     },
 
-    findOne: async (req, res) => {
+    findById: async (req, res) => {
         try {
           const employee = await Employee.findById(req.params.id);
           if (!employee) return res.status(404).json({ message: 'Employee not found' });
