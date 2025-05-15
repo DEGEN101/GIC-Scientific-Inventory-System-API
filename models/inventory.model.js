@@ -32,6 +32,15 @@ module.exports = (sql, poolPromise) => {
             return result.recordset[0];
         },
 
+        findByLocationId: async (locationId) => {
+            const pool = await poolPromise;
+            const result = await pool.request()
+            .input("id", sql.Int, locationId)
+            .query("Select * From Inventory WHERE LocationID = @id");
+
+            return result.recordset;
+        },
+
         updateById: async (id, inventoryItem) => {
             const pool = await poolPromise;
             const result = await pool.request()

@@ -9,6 +9,7 @@ module.exports = (app) => {
     registerCrudRoutes(router, inventory);
 
     // Add custom route(s) below
+    router.get("/location/:locationId", inventory.findByLocationID);
 
     app.use('/api/inventory', router);
 }

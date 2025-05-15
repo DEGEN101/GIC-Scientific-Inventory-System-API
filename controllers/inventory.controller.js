@@ -34,12 +34,25 @@ module.exports = {
         }
     },
 
+    findByLocationID: async (req, res) => {
+        try {
+            const InventoryItems = await Inventory.findByLocationId(req.params.locationId);
+
+            if (!InventoryItems) {
+                res.status(404).json({ message: "[!] Requested inventory item(s) not found" });
+            }
+            res.status(200).json(InventoryItems);
+
+        }catch (err) {
+            res.status(500).json({ message: err.message });
+        }
+    },
+
     update: async (req, res) => {
         try {
             const rowsAffected = Inventory.updateById(req.params.id, req.body);
             if (rowsAffected === 0) return res.status(404).json({ message: '[!] Inventory item not found' });
             res.status(200).json({ message: "[+] Inventory item updated successfully" });
-            
         } catch (err) {
             res.status(500).json({ message: err.message });
         }
