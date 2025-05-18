@@ -23,11 +23,26 @@ app.get("/", (req, res) => {
 
 // api routes
 require("./routes/employee.routes")(app);
-require("./routes/stockItem.routes")(app);
+
 require("./routes/inventory.routes")(app);
+require("./routes/location.routes")(app);
+
+require("./routes/supplier.routes")(app);
+require("./routes/purchaseOrder.routes")(app);
+require("./routes/purchaseOrderDetails.routes")(app);
+
+require("./routes/stockItem.routes")(app);
+require("./routes/stockItemAttribute.routes")(app);
+require("./routes/stockItemAttributeValue.routes")(app);
 require("./routes/stockItemCategory.routes")(app);
 require("./routes/stockItemGroup.routes")(app);
+
 require("./routes/uom.routes")(app);
+require("./routes/uomConversion.routes")(app);
+
+require("./routes/product.routes")(app);
+
+require("./routes/auditLog.routes")(app);
 
 app.listen(PORT, () => {
   console.log(`[+] Server running at http://localhost:${PORT}`);

@@ -5,8 +5,9 @@ const UoMConversion = database.uomConversion;
 const controller = createCrudController(UoMConversion);
 
 // Add custom handlers
-controller.findById = null
-controller.update = null
+controller.findById = async (req, res) => {
+    res.status(404).json({ message:"[!] Item not found" }); 
+}
 
 controller.findByKey = async (req, res) => {
     try {

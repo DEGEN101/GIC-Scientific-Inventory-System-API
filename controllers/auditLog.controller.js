@@ -5,6 +5,6 @@ const AuditLog = database.auditLog;
 const controller = createCrudController(AuditLog);
 
 // AuditLog model has no updateById key
-controller.update = null;
+controller.update = async (req, res) => {}
 
 module.exports = controller;

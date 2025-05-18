@@ -5,8 +5,9 @@ const PurchaseOrderDetails = database.purchaseOrderDetails;
 const controller = createCrudController(PurchaseOrderDetails);
 
 // Add custom handlers
-controller.findById = null
-controller.update = null
+controller.findById = async (req, res) => {
+    res.status(404).json({ message:"[!] Item not found" });
+}
 
 controller.findByKey = async (req, res) => {
     try {
