@@ -1,5 +1,6 @@
-const express = require('express');
+const express = require("express");
 const cors = require("cors");
+const setupSwaggerDocs = require("./config/swagger.config"); 
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -44,6 +45,11 @@ require("./routes/product.routes")(app);
 
 require("./routes/auditLog.routes")(app);
 
+// Swagger docs route
+setupSwaggerDocs(app);
+
+// Start server
 app.listen(PORT, () => {
   console.log(`[+] Server running at http://localhost:${PORT}`);
+  console.log(`[+] Swagger docs available at http://localhost:${PORT}/docs`);
 });
