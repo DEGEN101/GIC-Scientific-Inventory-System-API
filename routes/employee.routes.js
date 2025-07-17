@@ -122,7 +122,13 @@ module.exports = (app) => {
     const router = require("express").Router();
 
     // Register generic CRUD routes
-    registerCrudRoutes(router, employees);
+    registerCrudRoutes(router, employees, {
+        create: true,
+        update: true,
+        delete: true,
+        findAll: false,
+        findById: true
+    });
 
     // Add custom route(s) below
 

@@ -26,7 +26,7 @@ database.sql = sql;
 database.poolPromise = poolPromise;
 
 // --- User Model ---
-database.users = require("./users.model.js")(sql, poolPromise);
+database.users = require("./user.model.js")(sql, poolPromise);
 // ----------------------
 
 // --- Employee Model ---

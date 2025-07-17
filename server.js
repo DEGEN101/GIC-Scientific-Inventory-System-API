@@ -1,6 +1,9 @@
 const express = require("express");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+
 const setupSwaggerDocs = require("./config/swagger.config"); 
+const { checkUser } = require("./middleware/auth.middleware");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -17,6 +20,12 @@ app.use(express.json());
 // parse requests of content-type - application/x-www-form-urlencoded
 app.use(express.urlencoded({ extended: true }));
 
+// parse cookies
+app.use(cookieParser());
+
+// user check route
+app.use(checkUser);
+
 // simple route
 app.get("/", (req, res) => {
     res.json({ message: "Welcome to the GIC Scientific Stock System Server." });
@@ -27,6 +36,8 @@ require("./routes/auth.routes")(app);
 
 // api routes
 require("./routes/employee.routes")(app);
+
+require("./routes/user.routes")(app);
 
 require("./routes/inventory.routes")(app);
 require("./routes/location.routes")(app);
