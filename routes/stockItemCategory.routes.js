@@ -1,27 +1,27 @@
 /**
  * @swagger
  * tags:
- *   - name: Employees
- *     description: Employee management
+ *   - name: StockItemCategory
+ *     description: Manage stock item categories
  */
 
 /**
  * @swagger
- * /api/employees:
+ * /api/stockItemCategory:
  *   get:
- *     summary: Get all employees
- *     tags: [Employees]
+ *     summary: Get all stock item categories
+ *     tags: [StockItemCategory]
  *     responses:
  *       200:
- *         description: List of employees
+ *         description: List of stock item categories
  */
 
 /**
  * @swagger
- * /api/employees/{id}:
+ * /api/stockItemCategory/{id}:
  *   get:
- *     summary: Get an employee by ID
- *     tags: [Employees]
+ *     summary: Get a stock item category by ID
+ *     tags: [StockItemCategory]
  *     parameters:
  *       - in: path
  *         name: id
@@ -30,17 +30,17 @@
  *           type: integer
  *     responses:
  *       200:
- *         description: Employee found
+ *         description: Stock item category found
  *       404:
- *         description: Employee not found
+ *         description: Stock item category not found
  */
 
 /**
  * @swagger
- * /api/employees:
+ * /api/stockItemCategory:
  *   post:
- *     summary: Create a new employee
- *     tags: [Employees]
+ *     summary: Create a new stock item category
+ *     tags: [StockItemCategory]
  *     requestBody:
  *       required: true
  *       content:
@@ -48,15 +48,9 @@
  *           schema:
  *             type: object
  *             properties:
- *               FirstName:
+ *               CategoryName:
  *                 type: string
- *               Surname:
- *                 type: string
- *               Role:
- *                 type: string
- *               Email:
- *                 type: string
- *               PhoneNumber:
+ *               Description:
  *                 type: string
  *     responses:
  *       201:
@@ -65,10 +59,10 @@
 
 /**
  * @swagger
- * /api/employees/{id}:
+ * /api/stockItemCategory/{id}:
  *   put:
- *     summary: Update an employee by ID
- *     tags: [Employees]
+ *     summary: Update a stock item category by ID
+ *     tags: [StockItemCategory]
  *     parameters:
  *       - in: path
  *         name: id
@@ -82,15 +76,9 @@
  *           schema:
  *             type: object
  *             properties:
- *               FirstName:
+ *               CategoryName:
  *                 type: string
- *               Surname:
- *                 type: string
- *               Role:
- *                 type: string
- *               Email:
- *                 type: string
- *               PhoneNumber:
+ *               Description:
  *                 type: string
  *     responses:
  *       200:
@@ -99,10 +87,10 @@
 
 /**
  * @swagger
- * /api/employees/{id}:
+ * /api/stockItemCategory/{id}:
  *   delete:
- *     summary: Delete an employee
- *     tags: [Employees]
+ *     summary: Delete a stock item category
+ *     tags: [StockItemCategory]
  *     parameters:
  *       - in: path
  *         name: id
@@ -117,14 +105,14 @@
 const registerCrudRoutes = require("../utils/registerCrudRoutes.js");
 
 module.exports = (app) => {
-    const employees = require("../controllers/employees.controller.js");
+    const stockItemCategory = require("../controllers/stockItemCategory.controller.js");
 
     const router = require("express").Router();
 
     // Register generic CRUD routes
-    registerCrudRoutes(router, employees);
+    registerCrudRoutes(router, stockItemCategory);
 
     // Add custom route(s) below
 
-    app.use('/api/employees', router);
+    app.use("/api/stockItemCategory", router);
 }

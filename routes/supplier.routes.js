@@ -1,27 +1,27 @@
 /**
  * @swagger
  * tags:
- *   - name: Employees
- *     description: Employee management
+ *   - name: Suppliers
+ *     description: Supplier management
  */
 
 /**
  * @swagger
- * /api/employees:
+ * /api/supplier:
  *   get:
- *     summary: Get all employees
- *     tags: [Employees]
+ *     summary: Get all suppliers
+ *     tags: [Suppliers]
  *     responses:
  *       200:
- *         description: List of employees
+ *         description: List of suppliers
  */
 
 /**
  * @swagger
- * /api/employees/{id}:
+ * /api/supplier/{id}:
  *   get:
- *     summary: Get an employee by ID
- *     tags: [Employees]
+ *     summary: Get a supplier by ID
+ *     tags: [Suppliers]
  *     parameters:
  *       - in: path
  *         name: id
@@ -30,17 +30,17 @@
  *           type: integer
  *     responses:
  *       200:
- *         description: Employee found
+ *         description: Supplier found
  *       404:
- *         description: Employee not found
+ *         description: Supplier not found
  */
 
 /**
  * @swagger
- * /api/employees:
+ * /api/supplier:
  *   post:
- *     summary: Create a new employee
- *     tags: [Employees]
+ *     summary: Create a new supplier
+ *     tags: [Suppliers]
  *     requestBody:
  *       required: true
  *       content:
@@ -48,11 +48,7 @@
  *           schema:
  *             type: object
  *             properties:
- *               FirstName:
- *                 type: string
- *               Surname:
- *                 type: string
- *               Role:
+ *               Name:
  *                 type: string
  *               Email:
  *                 type: string
@@ -65,10 +61,10 @@
 
 /**
  * @swagger
- * /api/employees/{id}:
+ * /api/supplier/{id}:
  *   put:
- *     summary: Update an employee by ID
- *     tags: [Employees]
+ *     summary: Update a supplier by ID
+ *     tags: [Suppliers]
  *     parameters:
  *       - in: path
  *         name: id
@@ -82,11 +78,7 @@
  *           schema:
  *             type: object
  *             properties:
- *               FirstName:
- *                 type: string
- *               Surname:
- *                 type: string
- *               Role:
+ *               Name:
  *                 type: string
  *               Email:
  *                 type: string
@@ -99,10 +91,10 @@
 
 /**
  * @swagger
- * /api/employees/{id}:
+ * /api/supplier/{id}:
  *   delete:
- *     summary: Delete an employee
- *     tags: [Employees]
+ *     summary: Delete a supplier
+ *     tags: [Suppliers]
  *     parameters:
  *       - in: path
  *         name: id
@@ -114,17 +106,17 @@
  *         description: Deleted
  */
 
-const registerCrudRoutes = require("../utils/registerCrudRoutes.js");
+
+const registerCrudRoutes = require("../utils/registerCrudRoutes");
 
 module.exports = (app) => {
-    const employees = require("../controllers/employees.controller.js");
-
+    const supplier = require("../controllers/supplier.controller");
     const router = require("express").Router();
-
+    
     // Register generic CRUD routes
-    registerCrudRoutes(router, employees);
+    registerCrudRoutes(router, supplier);
 
     // Add custom route(s) below
 
-    app.use('/api/employees', router);
+    app.use('/api/supplier', router);
 }

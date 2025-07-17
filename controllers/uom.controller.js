@@ -1,7 +1,7 @@
 const database = require("../models");
 const createCrudController = require("../utils/createCrudController");
 
-const Employee = database.employees;
-const controller = createCrudController(Employee);
+const UoM = database.uom;
+const controller = createCrudController(UoM);
 
 module.exports = controller;

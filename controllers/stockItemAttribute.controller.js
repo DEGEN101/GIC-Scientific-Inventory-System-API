@@ -1,7 +1,9 @@
 const database = require("../models");
 const createCrudController = require("../utils/createCrudController");
 
-const Employee = database.employees;
-const controller = createCrudController(Employee);
+const StockItemAttribute = database.stockItemAttribute;
+const controller = createCrudController(StockItemAttribute);
+
+// Add custom handlers
 
 module.exports = controller;
