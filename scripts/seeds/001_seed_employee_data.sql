@@ -1,6 +1,6 @@
 Use [GIC Inventory Database];
 
-INSERT INTO Employee (FirstName, Surname, Role, Email, PhoneNumber)
+INSERT INTO Employees (FirstName, Surname, Role, Email, PhoneNumber)
 VALUES
   ('John', 'Doe', 'Lab Technician', 'john@gicsci.com', '0100000001'),
   ('Sarah', 'Smith', 'Warehouse Manager', 'sarah@gicsci.com', '0100000002'),
