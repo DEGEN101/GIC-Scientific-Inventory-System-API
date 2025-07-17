@@ -124,6 +124,17 @@ CREATE TABLE Employees (
     PhoneNumber NCHAR(10) NOT NULL
 );
 
+-- Users Table
+CREATE TABLE Users (
+    UserID INT PRIMARY KEY IDENTITY,
+    EmployeeID INT,
+    Username NVARCHAR(100) UNIQUE,
+    PasswordHash NVARCHAR(255),
+    CreatedAt DATETIME DEFAULT GETDATE(),
+    IsActive BIT DEFAULT 1,
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID) ON DELETE SET NULL
+);
+
 -- ProductionOrder Table
 CREATE TABLE ProductionOrder (
     ProductionOrderID INT IDENTITY(1,1) PRIMARY KEY,

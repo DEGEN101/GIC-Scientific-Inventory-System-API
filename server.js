@@ -22,6 +22,9 @@ app.get("/", (req, res) => {
     res.json({ message: "Welcome to the GIC Scientific Stock System Server." });
 });
 
+// authentication route
+require("./routes/auth.routes")(app);
+
 // api routes
 require("./routes/employee.routes")(app);
 

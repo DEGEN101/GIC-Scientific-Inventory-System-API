@@ -25,6 +25,10 @@ const database = {};
 database.sql = sql;
 database.poolPromise = poolPromise;
 
+// --- User Model ---
+database.users = require("./users.model.js")(sql, poolPromise);
+// ----------------------
+
 // --- Employee Model ---
 database.employees = require("./employees.model.js")(sql, poolPromise);
 // ----------------------
