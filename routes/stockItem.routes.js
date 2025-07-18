@@ -144,6 +144,8 @@ module.exports = (app) => {
 
     const router = require("express").Router();
 
+    router.get("/full", stockItem.findAllFull);
+
     // Register generic CRUD routes
     registerCrudRoutes(router, stockItem);
 
