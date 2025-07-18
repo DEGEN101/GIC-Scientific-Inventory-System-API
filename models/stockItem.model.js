@@ -22,6 +22,25 @@ module.exports = (sql, poolPromise) => {
             return result.recordset;
         },
 
+        getAllFull: async () => {
+            const pool = await poolPromise;
+            const result = await pool.request()
+            .query(`
+                SELECT 
+                    StockItem.StockItemID,
+                    StockItem.Name,
+                    StockItem.Description,
+                    StockItemCategory.Name AS CategoryName,
+                    StockItemGroup.Name AS GroupName,
+                    UnitOfMeasurement.Name AS BaseUoMName
+                FROM StockItem
+                LEFT JOIN StockItemCategory ON StockItemCategory.StockItemCategoryID = StockItem.StockItemCategoryID
+                LEFT JOIN StockItemGroup ON StockItemGroup.GroupID = StockItem.GroupID
+                LEFT JOIN UnitOfMeasurement ON UnitOfMeasurement.UoMID = StockItem.BaseUoMID`
+            );
+            return result.recordset;
+        },
+
         findById: async (id) => {
             const pool = await poolPromise;
             const result = await pool.request()
