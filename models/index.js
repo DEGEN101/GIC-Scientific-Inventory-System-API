@@ -1,7 +1,8 @@
-const dbConfig = require("../config/db.config.js");
-
 const sql = require('mssql');
+const chalk = require("chalk");
+const boxen = require("boxen");
 
+const dbConfig = require("../config/db.config.js");
 
 const config = {
   user: dbConfig.user,
@@ -11,14 +12,25 @@ const config = {
   options: dbConfig.options
 };
 
+const check = chalk.green("✔");
+const dbBox = boxen(
+    `${check} ${chalk.yellow('Connected to MSSQL')}`,
+    {
+    padding: 1,
+    borderStyle: 'round',
+    borderColor: 'green',
+    title: 'Database',
+    titleAlignment: 'center'
+    }
+);
 
 const poolPromise = new sql.ConnectionPool(config)
-.connect()
-.then(pool => {
-console.log('[+] Connected to MSSQL')
-return pool
-})
-.catch(err => console.log('[!] Database Connection Failed! Bad Config: ', err))
+    .connect()
+    .then(pool => {
+        console.log(dbBox);
+        return pool
+    })
+    .catch(err => console.log('[!] Database Connection Failed! Bad Config: ', err))
 
 
 const database = {};
