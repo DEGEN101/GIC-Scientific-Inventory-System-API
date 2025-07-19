@@ -33,9 +33,11 @@ CREATE TABLE StockItemCategory (
 
 -- StockItemGroup Table
 CREATE TABLE StockItemGroup (
-    GroupID INT PRIMARY KEY,
+    StockItemGroupID INT IDENTITY(1,1) PRIMARY KEY,
+    StockItemCategoryID INT NOT NULL,
     Name VARCHAR(100) NOT NULL,
-    Description VARCHAR(255)
+    Description VARCHAR(255),
+    FOREIGN KEY (StockItemCategoryID) REFERENCES StockItemCategory(StockItemCategoryID)
 );
 
 -- StockItem Table
@@ -44,12 +46,10 @@ CREATE TABLE StockItem (
     Name VARCHAR(100) NOT NULL,
     SKU VARCHAR(50) NOT NULL UNIQUE,
     Description TEXT,
-    StockItemCategoryID INT,
+    StockItemGroupID INT NOT NULL,
     BaseUoMID INT NOT NULL,
-    GroupID INT NOT NULL,
-    FOREIGN KEY (StockItemCategoryID) REFERENCES StockItemCategory(StockItemCategoryID) ON DELETE SET NULL,
-    FOREIGN KEY (BaseUoMID) REFERENCES UnitOfMeasurement(UoMID),
-    FOREIGN KEY (GroupID) REFERENCES StockItemGroup(GroupID)
+    FOREIGN KEY (StockItemGroupID) REFERENCES StockItemGroup(StockItemGroupID),
+    FOREIGN KEY (BaseUoMID) REFERENCES UnitOfMeasurement(UoMID)
 );
 
 -- StockItemAttribute Table

@@ -47,8 +47,10 @@
  *         application/json:
  *           schema:
  *             type: object
- *             properties:
+*             properties:
  *               GroupName:
+ *                 type: string
+ *               CategoryName:
  *                 type: string
  *               Description:
  *                 type: string
@@ -77,6 +79,8 @@
  *             type: object
  *             properties:
  *               GroupName:
+ *                 type: string
+ *               CategoryName:
  *                 type: string
  *               Description:
  *                 type: string

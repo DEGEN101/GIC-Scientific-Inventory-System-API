@@ -18,6 +18,17 @@
 
 /**
  * @swagger
+ * /api/stockItem/full:
+ *   get:
+ *     summary: Get all stock items with full details
+ *     tags: [StockItems]
+ *     responses:
+ *       200:
+ *         description: List of stock items
+ */
+
+/**
+ * @swagger
  * /api/stockItem/{id}:
  *   get:
  *     summary: Get a stock item by ID
@@ -73,11 +84,9 @@
  *                 type: string
  *               Description:
  *                 type: string
- *               StockItemCategoryID:
+ *               StockItemGroupID:
  *                 type: integer
  *               BaseUoMID:
- *                 type: integer
- *               GroupID:
  *                 type: integer
  *     responses:
  *       201:
@@ -109,11 +118,9 @@
  *                 type: string
  *               Description:
  *                 type: string
- *               StockItemCategoryID:
+ *               StockItemGroupID:
  *                 type: integer
  *               BaseUoMID:
- *                 type: integer
- *               GroupID:
  *                 type: integer
  *     responses:
  *       200:
