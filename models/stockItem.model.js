@@ -6,11 +6,10 @@ module.exports = (sql, poolPromise) => {
             .input("Name", sql.VarChar, newStockItem.Name)
             .input("SKU", sql.VarChar, newStockItem.SKU)
             .input("Description", sql.Text, newStockItem.Description)
-            .input("StockItemCategoryID", sql.Int, newStockItem.StockItemCategoryID)
             .input("BaseUoMID", sql.Int, newStockItem.BaseUoMID)
-            .input("GroupID", sql.Int, newStockItem.GroupID)
-            .query("INSERT INTO StockItem (Name, SKU, Description, StockItemCategoryID, BaseUoMID, GroupID) \
-                OUTPUT INSERTED.* VALUES (@Name, @SKU, @Description, @StockItemCategoryID, @BaseUoMID, @GroupID)");
+            .input("StockItemGroupID", sql.Int, newStockItem.StockItemGroupID)
+            .query("INSERT INTO StockItem (Name, SKU, Description, StockItemGroupID, BaseUoMID) \
+                OUTPUT INSERTED.* VALUES (@Name, @SKU, @Description, @StockItemGroupID, @BaseUoMID)");
             
             return result.recordset[0];
         },
@@ -34,10 +33,10 @@ module.exports = (sql, poolPromise) => {
                     StockItemGroup.Name AS GroupName,
                     UnitOfMeasurement.Name AS BaseUoMName
                 FROM StockItem
-                LEFT JOIN StockItemCategory ON StockItemCategory.StockItemCategoryID = StockItem.StockItemCategoryID
-                LEFT JOIN StockItemGroup ON StockItemGroup.GroupID = StockItem.GroupID
-                LEFT JOIN UnitOfMeasurement ON UnitOfMeasurement.UoMID = StockItem.BaseUoMID`
-            );
+                LEFT JOIN StockItemGroup ON StockItemGroup.StockItemGroupID = StockItem.StockItemGroupID
+                LEFT JOIN StockItemCategory ON StockItemCategory.StockItemCategoryID = StockItemGroup.StockItemCategoryID
+                LEFT JOIN UnitOfMeasurement ON UnitOfMeasurement.UoMID = StockItem.BaseUoMID;
+            `);
             return result.recordset;
         },
 
@@ -62,15 +61,13 @@ module.exports = (sql, poolPromise) => {
         updateById: async (id, stockItem) => {
             const pool = await poolPromise;
             const result = await pool.request()
-            .input("id", sql.Int, id)
             .input("Name", sql.VarChar, stockItem.Name)
             .input("SKU", sql.VarChar, stockItem.SKU)
             .input("Description", sql.Text, stockItem.Description)
-            .input("StockItemCategoryID", sql.Int, stockItem.StockItemCategoryID)
             .input("BaseUoMID", sql.Int, stockItem.BaseUoMID)
-            .input("GroupID", sql.Int, stockItem.GroupID)
-            .query("UPDATE StockItem SET Name = @Name, SKU = @SKU, Description = @Description, StockItemCategoryID = @StockItemCategoryID, \
-                BaseUoMID = @BaseUoMID, GroupID = @GroupID WHERE StockItemID = @id");
+            .input("StockItemGroupID", sql.Int, stockItem.StockItemGroupID)
+            .query("UPDATE StockItem SET Name = @Name, SKU = @SKU, Description = @Description, StockItemGroupID = @StockItemGroupID, \
+                BaseUoMID = @BaseUoMID WHERE StockItemID = @id");
 
             return result.rowsAffected[0];
         },
