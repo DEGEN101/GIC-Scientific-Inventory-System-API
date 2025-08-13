@@ -28,6 +28,7 @@ module.exports = (sql, poolPromise) => {
                 SELECT 
                     StockItem.StockItemID,
                     StockItem.Name,
+                    StockItem.SKU,
                     StockItem.Description,
                     StockItemCategory.Name AS CategoryName,
                     StockItemGroup.Name AS GroupName,
@@ -61,6 +62,7 @@ module.exports = (sql, poolPromise) => {
         updateById: async (id, stockItem) => {
             const pool = await poolPromise;
             const result = await pool.request()
+            .input("id", sql.Int, id)
             .input("Name", sql.VarChar, stockItem.Name)
             .input("SKU", sql.VarChar, stockItem.SKU)
             .input("Description", sql.Text, stockItem.Description)

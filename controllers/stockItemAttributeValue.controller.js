@@ -26,7 +26,7 @@ controller.findByKey = async (req, res) => {
 controller.update = async (req, res) => {
     try {
         const { stockItemId, attributeId } = req.params;
-        const rowsAffected = await StockItemAttributeValue.updateByKey(stockItemId, attributeId, req.body);
+        const rowsAffected = await StockItemAttributeValue.updateByKey(stockItemId, attributeId, req.body.AttributeValue);
 
         if (rowsAffected === 0) res.status(404).json({ message:"[!] Stock item attribute value not found" });
 
