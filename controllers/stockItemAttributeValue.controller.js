@@ -40,7 +40,7 @@ controller.update = async (req, res) => {
 controller.delete = async (req, res) => {
     try {
         const { stockItemId, attributeId } = req.params;
-        const rowsAffected = await PurchaseOrderDetails.remove(stockItemId, attributeId);
+        const rowsAffected = await StockItemAttributeValue.remove(stockItemId, attributeId);
 
         if (rowsAffected === 0) res.status(404).json({ message:"[!] Stock item attribute value not found" });
 

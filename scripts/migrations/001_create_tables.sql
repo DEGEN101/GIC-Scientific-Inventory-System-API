@@ -92,6 +92,16 @@ CREATE TABLE Supplier (
     PhoneNumber NCHAR(10)
 );
 
+--StockItemSupplier Table
+CREATE TABLE StockItemSupplier (
+    StockItemID INT NOT NULL,
+    SupplierID INT NOT NULL,
+    IsPreferred BIT DEFAULT 0,
+    PRIMARY KEY (StockItemID, SupplierID),
+    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
+    FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID)
+);
+
 -- PurchaseOrder Table
 CREATE TABLE PurchaseOrder (
     POID INT IDENTITY(1,1) PRIMARY KEY,
