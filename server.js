@@ -55,6 +55,7 @@ const routes = [
     "./routes/stockItemAttributeValue.routes",
     "./routes/stockItemCategory.routes",
     "./routes/stockItemGroup.routes",
+    "./routes/stockItemSupplier.routes",
     "./routes/uom.routes",
     "./routes/uomConversion.routes",
     "./routes/product.routes",

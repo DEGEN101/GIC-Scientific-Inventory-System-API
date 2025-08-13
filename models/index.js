@@ -50,6 +50,7 @@ database.location = require("./location.model.js")(sql, poolPromise);
 database.supplier = require("./supplier.model.js")(sql, poolPromise);
 database.purchaseOrder = require("./purchaseOrder.model.js")(sql, poolPromise);
 database.purchaseOrderDetails = require("./purchaseOrderDetails.model.js")(sql, poolPromise);
+database.stockItemSupplier = require("./stockItemSupplier.model.js")(sql, poolPromise);
 // -------------------------------------------
 
 // --- Stock Item Related Models ---
