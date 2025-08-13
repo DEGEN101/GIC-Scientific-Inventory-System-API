@@ -1,6 +1,6 @@
 var Service = require('node-windows').Service;
 var svc = new Service({
- name:'Gics API Server',
+ name:'GICS API Server',
  description: 'Node.js service description goes here.',
  script: 'D:\\Users\\Khalifa Raji\\Documents\\Work\\GIC Scientific\\GIC Scientific Stock System\\gic-inventory-api\\server.js'
 });

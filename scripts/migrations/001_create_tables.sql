@@ -66,8 +66,8 @@ CREATE TABLE StockItemAttributeValue (
     AttributeID INT NOT NULL,
     AttributeValue VARCHAR(255),
     PRIMARY KEY (StockItemID, AttributeID),
-    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
-    FOREIGN KEY (AttributeID) REFERENCES StockItemAttribute(AttributeID)
+    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID) ON DELETE CASCADE,
+    FOREIGN KEY (AttributeID) REFERENCES StockItemAttribute(AttributeID) ON DELETE CASCADE
 );
 
 -- Inventory Table
