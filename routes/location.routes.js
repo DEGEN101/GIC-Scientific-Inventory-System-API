@@ -8,6 +8,9 @@ module.exports = (app) => {
     registerCrudRoutes(router, location);
 
     // Add custom route(s) below
+    router.get('/:id/shelves', location.getShelvesByLocationId);
+    router.post('/:id/shelves', location.addShelfToLocation);
+
 
     app.use('/api/location', router);
 }

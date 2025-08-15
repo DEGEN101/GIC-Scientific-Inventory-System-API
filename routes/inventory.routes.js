@@ -5,11 +5,14 @@ module.exports = (app) => {
 
     const router = require("express").Router();
 
+    router.get("/full", inventory.findAllFull);
+
     // Register generic CRUD routes
     registerCrudRoutes(router, inventory);
 
     // Add custom route(s) below
     router.get("/location/:locationId", inventory.findByLocationID);
+    router.get("/shelf/:shelfId", inventory.findByShelfID);
 
     app.use('/api/inventory', router);
 }

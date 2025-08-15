@@ -1,7 +1,6 @@
 module.exports = (sql, poolPromise) => {
     const StockItemSupplier = {
         create: async (value) => {
-            console.log("Creating stock item supplier:", value);
             const pool = await poolPromise;
             const result = await pool.request()
                 .input('StockItemID', sql.Int, value.StockItemID)

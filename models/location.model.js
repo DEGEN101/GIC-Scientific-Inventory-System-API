@@ -5,7 +5,8 @@ module.exports = (sql, poolPromise) => {
             const result = await pool.request()
                 .input("Name", sql.VarChar, location.Name)
                 .input("Description", sql.VarChar, location.Description)
-                .query("INSERT INTO Location (Name, Description) OUTPUT INSERTED.* VALUES (@Name, @Description)");
+                .input("StorageTypeID", sql.Int, location.StorageTypeID)
+                .query("INSERT INTO Location (Name, Description, StorageTypeID) OUTPUT INSERTED.* VALUES (@Name, @Description, @StorageTypeID)");
 
             return result.recordset[0];
         },
@@ -27,13 +28,14 @@ module.exports = (sql, poolPromise) => {
             return result.recordset[0];
         },
 
-        updateById: async (id, location) => {
+        updateById: async (id, updatedLocation) => {
             const pool = await poolPromise;
             const result = await pool.request()
                 .input("id", sql.Int, id)
-                .input("Name", sql.VarChar, location.Name)
-                .input("Description", sql.VarChar, location.Description)
-                .query("UPDATE Location SET Name = @Name, Description = @Description WHERE LocationID = @id");
+                .input("Name", sql.VarChar, updatedLocation.Name)
+                .input("Description", sql.VarChar, updatedLocation.Description)
+                .input("StorageTypeID", sql.Int, updatedLocation.StorageTypeID)
+                .query("UPDATE Location SET Name = @Name, Description = @Description, StorageTypeID = @StorageTypeID WHERE LocationID = @id");
 
             return result.rowsAffected[0];
         },

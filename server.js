@@ -47,6 +47,7 @@ const routes = [
     "./routes/employee.routes",
     "./routes/inventory.routes",
     "./routes/location.routes",
+    "./routes/shelf.routes",
     "./routes/supplier.routes",
     "./routes/purchaseOrder.routes",
     "./routes/purchaseOrderDetails.routes",

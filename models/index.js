@@ -44,6 +44,8 @@ database.employees = require("./employees.model.js")(sql, poolPromise);
 // --- Inventory Related Models ---
 database.inventory = require("./inventory.model.js")(sql, poolPromise);
 database.location = require("./location.model.js")(sql, poolPromise);
+database.storageType = require("./storageType.model.js")(sql, poolPromise);
+database.shelf = require("./shelf.model.js")(sql, poolPromise);
 // --------------------------------
 
 // --- Purchases Related Models ---

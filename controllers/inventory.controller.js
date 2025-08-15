@@ -19,4 +19,27 @@ controller.findByLocationID = async (req, res) => {
     }
 }
 
+controller.findByShelfID = async (req, res) => {
+    try {
+        const InventoryItems = await Inventory.findByShelfId(req.params.shelfId);
+
+        if (!InventoryItems) {
+            res.status(404).json({ message: "[!] Requested inventory item(s) not found" });
+        }
+        res.status(200).json(InventoryItems);
+
+    }catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+
+controller.findAllFull = async (req, res) => {
+    try {
+        const results = await Inventory.getAllFull();
+        res.status(200).json(results);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+}
+
 module.exports = controller;

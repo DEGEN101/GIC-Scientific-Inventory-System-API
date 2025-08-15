@@ -1,10 +1,29 @@
 use [GIC Inventory Database];
 
+-- StorageType Table
+CREATE TABLE StorageType (
+    StorageTypeID INT IDENTITY(1,1) PRIMARY KEY,
+    TypeName VARCHAR(50) NOT NULL,
+    Description TEXT
+);
+
 -- Location Table
 CREATE TABLE Location (
     LocationID INT IDENTITY(1,1) PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
-    Description TEXT
+    Description TEXT,
+    StorageTypeID INT NOT NULL,
+    FOREIGN KEY (StorageTypeID) REFERENCES StorageType(StorageTypeID)
+);
+
+-- Shelf Table for Locations
+CREATE TABLE Shelf (
+    ShelfID INT IDENTITY(1,1) PRIMARY KEY,
+    LocationID INT NOT NULL,
+    ShelfRow VARCHAR(10) NOT NULL,
+    ShelfColumn VARCHAR(10) NOT NULL,
+    Name VARCHAR(100),
+    FOREIGN KEY (LocationID) REFERENCES Location(LocationID)
 );
 
 -- UnitOfMeasurement Table
@@ -75,13 +94,13 @@ CREATE TABLE Inventory (
     InventoryID INT IDENTITY(1,1) PRIMARY KEY,
     StockItemID INT NOT NULL,
     Quantity DECIMAL(10, 2) NOT NULL,
-    UoMID INT NOT NULL,
     BatchNumber VARCHAR(50),
     IsPartial BIT DEFAULT 0,
-    LocationID INT,
+    LocationID INT NOT NULL,
+    ShelfID INT, -- The shelf is optional.
     FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID) ON DELETE CASCADE,
-    FOREIGN KEY (UoMID) REFERENCES UnitOfMeasurement(UoMID),
-    FOREIGN KEY (LocationID) REFERENCES Location(LocationID) ON DELETE SET NULL
+    FOREIGN KEY (LocationID) REFERENCES Location(LocationID),
+    FOREIGN KEY (ShelfID) REFERENCES Shelf(ShelfID)
 );
 
 -- Supplier Table
@@ -98,8 +117,8 @@ CREATE TABLE StockItemSupplier (
     SupplierID INT NOT NULL,
     IsPreferred BIT DEFAULT 0,
     PRIMARY KEY (StockItemID, SupplierID),
-    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
-    FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID)
+    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID) ON DELETE CASCADE,
+    FOREIGN KEY (SupplierID) REFERENCES Supplier(SupplierID) ON DELETE CASCADE
 );
 
 -- PurchaseOrder Table
@@ -120,7 +139,7 @@ CREATE TABLE PurchaseOrderDetails (
     PackagingTypeID INT,
     PRIMARY KEY (POID, StockItemID),
     FOREIGN KEY (POID) REFERENCES PurchaseOrder(POID) ON DELETE CASCADE,
-    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
+    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID) ON DELETE CASCADE,
     FOREIGN KEY (UoMID) REFERENCES UnitOfMeasurement(UoMID)
 );
 

@@ -5,12 +5,12 @@ module.exports = (sql, poolPromise) => {
             const result = await pool.request()
             .input("StockItemID", sql.Int, newInventoryItem.StockItemID)
             .input("Quantity", sql.Decimal(10, 2), newInventoryItem.Quantity)
-            .input("UoMID", sql.Int, newInventoryItem.UoMID)
             .input("BatchNumber", sql.VarChar(50), newInventoryItem.BatchNumber)
             .input("isPartial", sql.Bit, newInventoryItem.isPartial ?? false)
             .input("LocationID", sql.Int, newInventoryItem.LocationID)
-            .query("INSERT INTO Inventory (StockItemID, Quantity, UoMID, BatchNumber, isPartial, LocationID) \
-                OUTPUT INSERTED.* VALUES (@StockItemID, @Quantity, @UoMID, @BatchNumber, @isPartial, @LocationID)");
+            .input("ShelfID", sql.Int, newInventoryItem.ShelfID)
+            .query("INSERT INTO Inventory (StockItemID, Quantity, BatchNumber, isPartial, LocationID, ShelfID) \
+                OUTPUT INSERTED.* VALUES (@StockItemID, @Quantity, @BatchNumber, @isPartial, @LocationID, @ShelfID)");
             
             return result.recordset[0];
         },
@@ -21,6 +21,37 @@ module.exports = (sql, poolPromise) => {
             .query("SELECT * FROM Inventory");
 
             return result.recordset;
+        },
+
+        getAllFull: async () => {
+            try {
+                const pool = await poolPromise;
+                const result = await pool.request()
+                    .query(`
+                        SELECT 
+                            Inventory.InventoryID,
+                            Inventory.StockItemID,
+                            StockItem.Name AS StockItemName,
+                            StockItem.SKU AS StockItemSKU,
+                            Inventory.Quantity,
+                            UnitOfMeasurement.Name AS UoMName,
+                            Inventory.BatchNumber,
+                            Inventory.IsPartial,
+                            Location.Name AS LocationName,
+                            Shelf.ShelfID,
+                            Shelf.Name AS ShelfName,
+                            Shelf.ShelfRow,
+                            Shelf.ShelfColumn
+                        FROM Inventory
+                        LEFT JOIN StockItem ON StockItem.StockItemID = Inventory.StockItemID
+                        LEFT JOIN UnitOfMeasurement ON UnitOfMeasurement.UoMID = StockItem.BaseUoMID
+                        LEFT JOIN Location ON Location.LocationID = Inventory.LocationID
+                        LEFT JOIN Shelf ON Shelf.ShelfID = Inventory.ShelfID;
+                    `);
+                return result.recordset;
+            } catch (error) {
+                throw new Error(`Database error: ${error.message}`);
+            }
         },
 
         findById: async (id) => {
@@ -41,18 +72,27 @@ module.exports = (sql, poolPromise) => {
             return result.recordset;
         },
 
+        findByShelfId: async (shelfId) => {
+            const pool = await poolPromise;
+            const result = await pool.request()
+            .input("id", sql.Int, shelfId)
+            .query("Select * From Inventory WHERE ShelfID = @id");
+            
+            return result.recordset;
+        },
+
         updateById: async (id, inventoryItem) => {
             const pool = await poolPromise;
             const result = await pool.request()
             .input("id", sql.Int, id)
             .input("StockItemID", sql.Int, inventoryItem.StockItemID)
             .input("Quantity", sql.Decimal(10, 2), inventoryItem.Quantity)
-            .input("UoMID", sql.Int, inventoryItem.UoMID)
             .input("BatchNumber", sql.VarChar(50), inventoryItem.BatchNumber)
             .input("isPartial", sql.Bit, inventoryItem.isPartial ?? false)
             .input("LocationID", sql.Int, inventoryItem.LocationID)
-            .query("UPDATE Inventory SET  StockItemID = @StockItemID, Quantity = @Quantity, UoMID = @UoMID, \
-                BatchNumber = @BatchNumber, isPartial = @isPartial, LocationID = @LocationID WHERE InventoryID = @id");
+            .input("ShelfID", sql.Int, inventoryItem.ShelfID)
+            .query("UPDATE Inventory SET  StockItemID = @StockItemID, Quantity = @Quantity, \
+                BatchNumber = @BatchNumber, isPartial = @isPartial, LocationID = @LocationID, ShelfID = @ShelfID WHERE InventoryID = @id");
             
             return result.rowsAffected[0];
         },
@@ -62,6 +102,8 @@ module.exports = (sql, poolPromise) => {
             const result = await pool.request()
             .input("id", sql.Int, id)
             .query("DELETE FROM Inventory WHERE InventoryID = @id")
+
+            return result.rowsAffected[0];
         }
     };
 
