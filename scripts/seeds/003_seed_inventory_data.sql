@@ -40,12 +40,15 @@ SELECT @ProductionRoomShelf1ID = ShelfID FROM Shelf WHERE LocationID = @Producti
 SELECT @RawMaterialsShelf2ID = ShelfID FROM Shelf WHERE LocationID = @RawMaterialsRoomID AND ShelfRow = 'B' AND ShelfColumn = '2';
 
 -- Insert new inventory records
-INSERT INTO Inventory (LocationID, ShelfID, StockItemID, Quantity, BatchNumber, IsPartial) VALUES
+INSERT INTO Inventory (LocationID, ShelfID, StockItemID, Quantity, MinimumQuantity, BatchNumber, IsPartial) VALUES
     -- Item 1 is in the Outside Storeroom (standalone, so ShelfID is NULL)
-    (@OutsideStoreroomID, NULL, 1, 1000, 'BATCH001', 0),
+    (@OutsideStoreroomID, NULL, 1, 1000, 200, 'BATCH001', 0),
+    
     -- Item 5 is also in the Outside Storeroom (standalone)
-    (@OutsideStoreroomID, NULL, 1, 500, 'BATCH002', 0),
+    (@OutsideStoreroomID, NULL, 1, 500, 200, 'BATCH002', 0),
+    
     -- Item 2 is in the Production Room on Shelf A, Column 1
-    (@ProductionRoomID, @ProductionRoomShelf1ID, 2, 200, 'BATCH003', 1),
+    (@ProductionRoomID, @ProductionRoomShelf1ID, 2, 200, 100, 'BATCH003', 1),
+    
     -- Item 3 is in the Raw Materials Storeroom on Shelf B, Column 2
-    (@RawMaterialsRoomID, @RawMaterialsShelf2ID, 3, 150, 'BATCH004', 0);
+    (@RawMaterialsRoomID, @RawMaterialsShelf2ID, 3, 150, 75, 'BATCH004', 0);
