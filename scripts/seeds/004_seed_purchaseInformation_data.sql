@@ -1,7 +1,8 @@
-INSERT INTO Supplier (Name, Email, PhoneNumber)
+INSERT INTO Supplier (Name, ContactName, Email, Phone, BillingAddress, Status)
 VALUES 
-    ('LabSupplyCo', 'sales@labsupplyco.com', '0112233445'),
-    ('ANOW', 'ANOW@gmail.com', '0213456874');
+    ('LabSupplyCo', 'John Smith', 'sales@labsupplyco.com', '0112233445', '123 Industrial Road, Unit 5, Johannesburg, 2001', 'Active'),
+    ('ANOW', 'Jane Doe', 'ANOW@gmail.com', '0213456874', '456 Science Park, Cape Town, 8001', 'Active');
+
 
 INSERT INTO PurchaseOrder (SupplierID, OrderDate, Status)
 VALUES 

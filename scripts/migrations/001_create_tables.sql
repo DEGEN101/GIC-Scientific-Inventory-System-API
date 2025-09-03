@@ -106,9 +106,14 @@ CREATE TABLE Inventory (
 -- Supplier Table
 CREATE TABLE Supplier (
     SupplierID INT IDENTITY(1,1) PRIMARY KEY,
-    Name VARCHAR(100) NOT NULL,
-    Email VARCHAR(100),
-    PhoneNumber NCHAR(10)
+    Name NVARCHAR(255) NOT NULL,
+    ContactName NVARCHAR(100) NULL,             
+    Email NVARCHAR(255) NULL,                   
+    Phone NVARCHAR(50) NULL,                    
+    
+    BillingAddress NVARCHAR(255) NULL,       
+    
+    Status NVARCHAR(50) DEFAULT 'Active'
 );
 
 --StockItemSupplier Table
