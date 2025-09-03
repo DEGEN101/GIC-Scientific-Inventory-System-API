@@ -50,10 +50,17 @@
  *             properties:
  *               Name:
  *                 type: string
+ *               ContactName:
+ *                 type: string
  *               Email:
  *                 type: string
- *               PhoneNumber:
+ *               Phone:
  *                 type: string
+ *               BillingAddress:
+ *                 type: string
+ *               Status:
+ *                 type: string
+ *                 enum: [Active, Inactive]
  *     responses:
  *       201:
  *         description: Created
@@ -80,10 +87,17 @@
  *             properties:
  *               Name:
  *                 type: string
+ *               ContactName:
+ *                 type: string
  *               Email:
  *                 type: string
- *               PhoneNumber:
+ *               Phone:
  *                 type: string
+ *               BillingAddress:
+ *                 type: string
+ *               Status:
+ *                 type: string
+ *                 enum: [Active, Inactive]
  *     responses:
  *       200:
  *         description: Updated
@@ -105,6 +119,7 @@
  *       200:
  *         description: Deleted
  */
+
 
 
 const registerCrudRoutes = require("../utils/registerCrudRoutes");
