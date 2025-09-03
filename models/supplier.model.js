@@ -44,7 +44,7 @@ module.exports = (sql, poolPromise) => {
                 .input('BillingAddress', sql.VarChar, supplier.BillingAddress)
                 .input('Status', sql.VarChar, supplier.Status)
                 .query(`UPDATE Supplier SET 
-                        Name = @Name, ContactName = @ContactName, Email = @Email, Phone = @Phone, @BillingAddress = BillingAddress, @Status = Status 
+                        Name = @Name, ContactName = @ContactName, Email = @Email, Phone = @Phone, BillingAddress = @BillingAddress, Status = @Status 
                         WHERE SupplierID = @id`);
 
             return result.rowsAffected[0];
