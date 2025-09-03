@@ -94,10 +94,20 @@ CREATE TABLE Inventory (
     InventoryID INT IDENTITY(1,1) PRIMARY KEY,
     StockItemID INT NOT NULL,
     Quantity DECIMAL(10, 2) NOT NULL,
+    MinimumQuantity DECIMAL(10, 2) NOT NULL DEFAULT 0, -- Minimum threshold
+    Status AS 
+        CASE 
+            WHEN Quantity = 0 THEN 'Out of Stock'
+            WHEN Quantity < MinimumQuantity THEN 'Low Stock'
+            WHEN Quantity = MinimumQuantity THEN 'At Minimum'
+            ELSE 'In Stock'
+        END PERSISTED, -- Computed column, always reflects latest Quantity
+
     BatchNumber VARCHAR(50),
     IsPartial BIT DEFAULT 0,
     LocationID INT NOT NULL,
-    ShelfID INT, -- The shelf is optional.
+    ShelfID INT, -- Optional shelf reference
+
     FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID) ON DELETE CASCADE,
     FOREIGN KEY (LocationID) REFERENCES Location(LocationID),
     FOREIGN KEY (ShelfID) REFERENCES Shelf(ShelfID)

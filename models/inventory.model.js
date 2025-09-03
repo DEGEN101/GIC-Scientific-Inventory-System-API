@@ -5,12 +5,13 @@ module.exports = (sql, poolPromise) => {
             const result = await pool.request()
             .input("StockItemID", sql.Int, newInventoryItem.StockItemID)
             .input("Quantity", sql.Decimal(10, 2), newInventoryItem.Quantity)
+            .input("MinimumQuantity", sql.Decimal(10, 2), newInventoryItem.MinimumQuantity)
             .input("BatchNumber", sql.VarChar(50), newInventoryItem.BatchNumber)
             .input("isPartial", sql.Bit, newInventoryItem.isPartial ?? false)
             .input("LocationID", sql.Int, newInventoryItem.LocationID)
             .input("ShelfID", sql.Int, newInventoryItem.ShelfID)
-            .query("INSERT INTO Inventory (StockItemID, Quantity, BatchNumber, isPartial, LocationID, ShelfID) \
-                OUTPUT INSERTED.* VALUES (@StockItemID, @Quantity, @BatchNumber, @isPartial, @LocationID, @ShelfID)");
+            .query("INSERT INTO Inventory (StockItemID, Quantity, MinimumQuantity, BatchNumber, isPartial, LocationID, ShelfID) \
+                OUTPUT INSERTED.* VALUES (@StockItemID, @Quantity, @MinimumQuantity, @BatchNumber, @isPartial, @LocationID, @ShelfID)");
             
             return result.recordset[0];
         },
@@ -33,9 +34,11 @@ module.exports = (sql, poolPromise) => {
                             Inventory.StockItemID,
                             StockItem.Name AS StockItemName,
                             StockItem.SKU AS StockItemSKU,
+                            Inventory.MinimumQuantity,
                             Inventory.Quantity,
                             UnitOfMeasurement.Name AS UoMName,
                             Inventory.BatchNumber,
+                            Inventory.Status,
                             Inventory.IsPartial,
                             Location.Name AS LocationName,
                             Shelf.ShelfID,
@@ -87,11 +90,12 @@ module.exports = (sql, poolPromise) => {
             .input("id", sql.Int, id)
             .input("StockItemID", sql.Int, inventoryItem.StockItemID)
             .input("Quantity", sql.Decimal(10, 2), inventoryItem.Quantity)
+            .input("MinimumQuantity", sql.Decimal(10, 2), inventoryItem.MinimumQuantity)
             .input("BatchNumber", sql.VarChar(50), inventoryItem.BatchNumber)
             .input("isPartial", sql.Bit, inventoryItem.isPartial ?? false)
             .input("LocationID", sql.Int, inventoryItem.LocationID)
             .input("ShelfID", sql.Int, inventoryItem.ShelfID)
-            .query("UPDATE Inventory SET  StockItemID = @StockItemID, Quantity = @Quantity, \
+            .query("UPDATE Inventory SET  StockItemID = @StockItemID, Quantity = @Quantity, MinimumQuantity = @MinimumQuantity,\
                 BatchNumber = @BatchNumber, isPartial = @isPartial, LocationID = @LocationID, ShelfID = @ShelfID WHERE InventoryID = @id");
             
             return result.rowsAffected[0];
