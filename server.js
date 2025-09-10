@@ -46,6 +46,10 @@ app.get("/", (req, res) => {
 const routes = [
     "./routes/employee.routes",
     "./routes/inventory.routes",
+    "./routes/stockCheck.routes",
+    "./routes/stockCheckLine.routes",
+    "./routes/stockCheckAdjustment.routes",
+    "./routes/stockMovement.routes",
     "./routes/location.routes",
     "./routes/shelf.routes",
     "./routes/supplier.routes",

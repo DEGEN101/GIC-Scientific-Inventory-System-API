@@ -46,6 +46,10 @@ database.inventory = require("./inventory.model.js")(sql, poolPromise);
 database.location = require("./location.model.js")(sql, poolPromise);
 database.storageType = require("./storageType.model.js")(sql, poolPromise);
 database.shelf = require("./shelf.model.js")(sql, poolPromise);
+database.stockCheck = require("./stockCheck.model.js")(sql, poolPromise);
+database.stockCheckLine = require("./stockCheckLine.model.js")(sql, poolPromise);
+database.stockCheckAdjustment = require("./stockCheckAdjustment.model.js")(sql, poolPromise);
+database.stockMovement = require("./stockMovement.model.js")(sql, poolPromise);
 // --------------------------------
 
 // --- Purchases Related Models ---
