@@ -32,13 +32,21 @@ module.exports = (sql, poolPromise) => {
             const pool = await poolPromise;
             const result = await pool.request()
                 .input('id', sql.Int, id)
-                .input('Status', sql.VarChar, statusUpdate.status)
-                .input('EndDate', sql.DateTime, statusUpdate.endDate || null)
+                .input('Status', sql.VarChar, statusUpdate.Status)
+                .input('EndDate', sql.DateTime, statusUpdate.EndDate || null)
                 .query(`
                     UPDATE StockCheck 
                     SET Status = @Status, EndDate = @EndDate 
                     WHERE StockCheckID = @id
                 `);
+            return result.rowsAffected[0];
+        },
+
+        remove: async (id) => {
+            const pool = await poolPromise;
+            const result = await pool.request()
+                .input('id', sql.Int, id)
+                .query('DELETE FROM StockCheck WHERE StockCheckID = @id');
             return result.rowsAffected[0];
         }
     };

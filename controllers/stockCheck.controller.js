@@ -7,9 +7,9 @@ const controller = createCrudController(StockCheck);
 // Add custom handlers
 controller.updateStatus = async (req, res) => {
     try {
-        const result = await StockItem.updateStatus(req.params.id, req.body);
-        if (!result) return res.status(404).json({ message: "[!] Item not found" });
-        res.status(200).json(result);
+        const result = await StockCheck.updateStatus(req.params.id, req.body);
+        if (!result) return res.status(404).json({ message: "[!] Stock check not found" });
+        res.status(200).json({ message: "[+] Stock check status updated." });
     } catch (err) {
         res.status(500).json({ message: err.message });
     }

@@ -76,10 +76,10 @@
  *           schema:
  *             type: object
  *             properties:
- *               status:
+ *               Status:
  *                 type: string
  *                 example: "Completed"
- *               endDate:
+ *               EndDate:
  *                 type: string
  *                 format: date-time
  *                 nullable: true
@@ -89,6 +89,23 @@
  *         description: Status updated
  *       404:
  *         description: Stock check not found
+ */
+
+/**
+ * @swagger
+ * /api/stockCheck/{id}:
+ *   delete:
+ *     summary: Delete a stock check
+ *     tags: [StockCheck]
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Deleted
  */
 
 const registerCrudRoutes = require("../utils/registerCrudRoutes.js");
