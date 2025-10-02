@@ -2,7 +2,8 @@ module.exports = (sql, poolPromise) => {
     const StockMovement = {
         create: async (movement) => {
             const pool = await poolPromise;
-            const result = await pool.request()
+            const result = await pool.request() 
+                .input('StockItemID', sql.Int, movement.StockItemID || null)
                 .input('FromInventoryID', sql.Int, movement.FromInventoryID || null)
                 .input('ToInventoryID', sql.Int, movement.ToInventoryID || null)
                 .input('Quantity', sql.Decimal(10,2), movement.Quantity)
@@ -21,7 +22,7 @@ module.exports = (sql, poolPromise) => {
         getAll: async () => {
             const pool = await poolPromise;
             const result = await pool.request()
-                .query('SELECT * FROM StockMovement ORDER BY MovementDate DESC');
+                .query('SELECT * FROM StockMovement ORDER BY MovementDate ASC');
             return result.recordset;
         },
 

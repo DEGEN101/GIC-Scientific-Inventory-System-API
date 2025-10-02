@@ -94,7 +94,6 @@ CREATE TABLE Inventory (
     InventoryID INT IDENTITY(1,1) PRIMARY KEY,
     StockItemID INT NOT NULL,
     Quantity DECIMAL(10, 2) NOT NULL,
-    MinimumQuantity DECIMAL(10, 2) NOT NULL DEFAULT 0, -- Minimum threshold
     Status AS 
         CASE 
             WHEN Quantity = 0 THEN 'Out of Stock'
@@ -214,7 +213,9 @@ CREATE TABLE StockMovement (
     FromInventoryID INT NULL,                -- Where it came from (null if new stock added)
     ToInventoryID INT NULL,                  -- Where it went (null if stock was removed)
     Quantity DECIMAL(10, 2) NOT NULL,        -- Always positive number
-    MovementType VARCHAR(50) NOT NULL,       -- e.g. 'Purchase', 'Sale', 'Production', 'Waste', 'Transfer', 'StockCheckAdjustment'
+    MovementType VARCHAR(50) NOT NULL CHECK (
+        MovementType IN ('Purchase', 'Sale', 'Consumption', 'Transfer', 'Adjustment')
+    ),
     MovementDate DATETIME NOT NULL DEFAULT GETDATE(),
     EmployeeID INT NOT NULL,                 -- Who made the movement
     ReferenceID INT NULL,                    -- Links to POID, SOID, ProductionOrderID, StockCheckID, etc.

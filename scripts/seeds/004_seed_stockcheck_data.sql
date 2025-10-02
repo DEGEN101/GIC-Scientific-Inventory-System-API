@@ -61,4 +61,4 @@ VALUES
 (NULL, @NewInventoryID, 300, 'Purchase', 1, NULL, 'New batch of raw material received'),
 
 -- Example: Stock check adjustment movement
-(NULL, @Inv2, 10, 'StockCheckAdjustment', 2, @StockCheck2, 'Adjusted stock after discrepancy');
+(NULL, @Inv2, 10, 'Adjustment', 2, @StockCheck2, 'Adjusted stock after discrepancy');
