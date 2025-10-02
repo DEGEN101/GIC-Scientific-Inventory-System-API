@@ -52,8 +52,8 @@ VALUES
 
 -- Example: New stock arrival into Raw Materials Storeroom (Purchase)
 DECLARE @NewInventoryID INT;
-INSERT INTO Inventory (LocationID, ShelfID, StockItemID, Quantity, MinimumQuantity, BatchNumber, IsPartial)
-VALUES (@RawMaterialsRoomID, NULL, 4, 300, 50, 'BATCH005', 0);
+INSERT INTO Inventory (LocationID, StockItemID, Quantity, BatchNumber, IsPartial)
+VALUES (@RawMaterialsRoomID, 4, 300, 'BATCH005', 0);
 SET @NewInventoryID = SCOPE_IDENTITY();
 
 INSERT INTO StockMovement (FromInventoryID, ToInventoryID, Quantity, MovementType, EmployeeID, ReferenceID, Notes)

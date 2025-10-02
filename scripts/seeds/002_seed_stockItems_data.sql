@@ -56,16 +56,17 @@ INSERT INTO StockItemGroup (StockItemGroupID, StockItemCategoryID, Name, Descrip
 SET IDENTITY_INSERT StockItemGroup OFF;
 
 
-INSERT INTO StockItem (SKU, Name, Description, StockItemGroupID, BaseUoMID) VALUES
-    ('QLVF-RL', 'QLVF Roll', 'High-purity cellulose filter paper, moderate flow, fine retention.', 1, 1),
-    ('QLVF-20S', 'QLVF 20-Stack', 'High-purity cellulose filter paper, moderate flow, fine retention.', 1, 2),
-    ('QLVF-25S', 'QLVF 25-Stack', 'High-purity cellulose filter paper, moderate flow, fine retention.', 1, 3),
-    ('GSSLGIC', 'GIC Scientific (Small)', 'Small GIC Scientific label', 23, 1),
-    ('GSBLGIC', 'GIC Scientific (Big)', 'Big GIC Scientific label', 23, 1);
+INSERT INTO StockItem (SKU, Name, Description, MinimumQuantity, StockItemGroupID, BaseUoMID) VALUES
+    ('QLVF-RL', 'QLVF Roll', 'High-purity cellulose filter paper, moderate flow, fine retention.', 200, 1, 1),
+    ('QLVF-20S', 'QLVF 20-Stack', 'High-purity cellulose filter paper, moderate flow, fine retention.', 200, 1, 2),
+    ('QLVF-25S', 'QLVF 25-Stack', 'High-purity cellulose filter paper, moderate flow, fine retention.', 200, 1, 3),
+    ('GSSLGIC', 'GIC Scientific (Small)', 'Small GIC Scientific label', 150, 23, 1),
+    ('GSBLGIC', 'GIC Scientific (Big)', 'Big GIC Scientific label', 150, 23, 1);
 
 
 INSERT INTO StockItemAttribute (StockItemCategoryID, AttributeName) VALUES
     (1, 'Supplier Grade'),
+    (1, 'Dimensions'),
     (2, 'Size');
 
 
