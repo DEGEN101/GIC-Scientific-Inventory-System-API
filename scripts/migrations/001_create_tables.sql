@@ -94,7 +94,6 @@ CREATE TABLE Inventory (
     InventoryID INT IDENTITY(1,1) PRIMARY KEY,
     StockItemID INT NOT NULL,
     Quantity DECIMAL(10, 2) NOT NULL,
-    MinimumQuantity DECIMAL(10, 2) NOT NULL DEFAULT 0, -- Minimum threshold
     Status AS 
         CASE 
             WHEN Quantity = 0 THEN 'Out of Stock'
@@ -166,6 +165,65 @@ CREATE TABLE Employees (
     Role VARCHAR(50) NOT NULL,
     Email VARCHAR(50) NOT NULL,
     PhoneNumber NCHAR(10) NOT NULL
+);
+
+-- StockCheck (header/session level)
+CREATE TABLE StockCheck (
+    StockCheckID INT IDENTITY(1,1) PRIMARY KEY,
+    LocationID INT NOT NULL,             -- Which location is being checked
+    EmployeeID INT NOT NULL,             -- Who initiated the stock check
+    StartDate DATETIME NOT NULL DEFAULT GETDATE(),
+    EndDate DATETIME NULL,
+    Status VARCHAR(50) NOT NULL DEFAULT 'In Progress', -- In Progress, Completed, Cancelled
+
+    FOREIGN KEY (LocationID) REFERENCES Location(LocationID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
+
+-- StockCheckLine (per stock item in a check)
+CREATE TABLE StockCheckLine (
+    StockCheckLineID INT IDENTITY(1,1) PRIMARY KEY,
+    StockCheckID INT NOT NULL,
+    InventoryID INT NOT NULL,           -- Links to specific inventory record (batch/location)
+    ExpectedQuantity DECIMAL(10, 2) NOT NULL, -- From system at start of check
+    CountedQuantity DECIMAL(10, 2) NOT NULL,  -- What employee counted
+    Difference AS (CountedQuantity - ExpectedQuantity) PERSISTED,
+    IsAdjusted BIT DEFAULT 0,           -- Whether this line has been adjusted already
+
+    FOREIGN KEY (StockCheckID) REFERENCES StockCheck(StockCheckID) ON DELETE CASCADE,
+    FOREIGN KEY (InventoryID) REFERENCES Inventory(InventoryID) ON DELETE CASCADE
+);
+
+-- StockCheckAdjustment (optional, to track the exact adjustment before movement is logged)
+CREATE TABLE StockCheckAdjustment (
+    AdjustmentID INT IDENTITY(1,1) PRIMARY KEY,
+    StockCheckLineID INT NOT NULL,
+    AdjustmentQuantity DECIMAL(10,2) NOT NULL, -- The amount applied to fix discrepancy
+    AdjustmentDate DATETIME NOT NULL DEFAULT GETDATE(),
+    EmployeeID INT NOT NULL,                   -- Who performed adjustment
+    Notes VARCHAR(255),
+
+    FOREIGN KEY (StockCheckLineID) REFERENCES StockCheckLine(StockCheckLineID) ON DELETE CASCADE,
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
+);
+
+-- StockMovement Table
+CREATE TABLE StockMovement (
+    MovementID INT IDENTITY(1,1) PRIMARY KEY,
+    FromInventoryID INT NULL,                -- Where it came from (null if new stock added)
+    ToInventoryID INT NULL,                  -- Where it went (null if stock was removed)
+    Quantity DECIMAL(10, 2) NOT NULL,        -- Always positive number
+    MovementType VARCHAR(50) NOT NULL CHECK (
+        MovementType IN ('Purchase', 'Sale', 'Consumption', 'Transfer', 'Adjustment')
+    ),
+    MovementDate DATETIME NOT NULL DEFAULT GETDATE(),
+    EmployeeID INT NOT NULL,                 -- Who made the movement
+    ReferenceID INT NULL,                    -- Links to POID, SOID, ProductionOrderID, StockCheckID, etc.
+    Notes VARCHAR(255),
+
+    FOREIGN KEY (FromInventoryID) REFERENCES Inventory(InventoryID),
+    FOREIGN KEY (ToInventoryID) REFERENCES Inventory(InventoryID),
+    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID)
 );
 
 -- ProductionOrder Table
