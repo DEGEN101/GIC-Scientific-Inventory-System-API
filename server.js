@@ -51,7 +51,6 @@ const routes = [
     "./routes/stockCheckAdjustment.routes",
     "./routes/stockMovement.routes",
     "./routes/location.routes",
-    "./routes/shelf.routes",
     "./routes/supplier.routes",
     "./routes/purchaseOrder.routes",
     "./routes/purchaseOrderDetails.routes",

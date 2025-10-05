@@ -6,10 +6,11 @@ module.exports = (sql, poolPromise) => {
             .input("Name", sql.VarChar, newStockItem.Name)
             .input("SKU", sql.VarChar, newStockItem.SKU)
             .input("Description", sql.Text, newStockItem.Description)
+            .input("MinimumQuantity", sql.Decimal(10, 2), newStockItem.MinimumQuantity)
             .input("BaseUoMID", sql.Int, newStockItem.BaseUoMID)
             .input("StockItemGroupID", sql.Int, newStockItem.StockItemGroupID)
-            .query("INSERT INTO StockItem (Name, SKU, Description, StockItemGroupID, BaseUoMID) \
-                OUTPUT INSERTED.* VALUES (@Name, @SKU, @Description, @StockItemGroupID, @BaseUoMID)");
+            .query("INSERT INTO StockItem (Name, SKU, Description, MinimumQuantity, StockItemGroupID, BaseUoMID) \
+                OUTPUT INSERTED.* VALUES (@Name, @SKU, @Description, @MinimumQuantity, @StockItemGroupID, @BaseUoMID)");
             
             return result.recordset[0];
         },
@@ -30,6 +31,7 @@ module.exports = (sql, poolPromise) => {
                     StockItem.Name,
                     StockItem.SKU,
                     StockItem.Description,
+                    StockItem.MinimumQuantity,
                     StockItemCategory.Name AS CategoryName,
                     StockItemGroup.Name AS GroupName,
                     UnitOfMeasurement.Name AS BaseUoMName
@@ -66,10 +68,11 @@ module.exports = (sql, poolPromise) => {
             .input("Name", sql.VarChar, stockItem.Name)
             .input("SKU", sql.VarChar, stockItem.SKU)
             .input("Description", sql.Text, stockItem.Description)
+            .input("MinimumQuantity", sql.Decimal(10, 2), stockItem.MinimumQuantity)
             .input("BaseUoMID", sql.Int, stockItem.BaseUoMID)
             .input("StockItemGroupID", sql.Int, stockItem.StockItemGroupID)
             .query("UPDATE StockItem SET Name = @Name, SKU = @SKU, Description = @Description, StockItemGroupID = @StockItemGroupID, \
-                BaseUoMID = @BaseUoMID WHERE StockItemID = @id");
+                MinimumQuantity = @MinimumQuantity, BaseUoMID = @BaseUoMID WHERE StockItemID = @id");
 
             return result.rowsAffected[0];
         },

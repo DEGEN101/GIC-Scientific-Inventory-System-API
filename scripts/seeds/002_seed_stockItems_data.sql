@@ -74,5 +74,5 @@ INSERT INTO StockItemAttributeValue (StockItemID, AttributeID, AttributeValue) V
     (1, 1, '609'),
     (2, 1, '609'),
     (3, 1, '609'),
-    (4, 2, '55mmx22mm'),
-    (5, 2, '98mmx49mm');
+    (4, 3, '55mmx22mm'),
+    (5, 3, '98mmx49mm');
