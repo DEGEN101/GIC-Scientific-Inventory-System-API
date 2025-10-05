@@ -84,6 +84,8 @@
  *                 type: string
  *               Description:
  *                 type: string
+ *               MinimumQuantity:
+ *                 type: integer
  *               StockItemGroupID:
  *                 type: integer
  *               BaseUoMID:
@@ -118,6 +120,8 @@
  *                 type: string
  *               Description:
  *                 type: string
+ *               MinimumQuantity:
+ *                 type: integer
  *               StockItemGroupID:
  *                 type: integer
  *               BaseUoMID:

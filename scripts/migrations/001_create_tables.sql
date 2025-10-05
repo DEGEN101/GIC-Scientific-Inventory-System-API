@@ -1,29 +1,10 @@
 use [GIC Inventory Database];
 
--- StorageType Table
-CREATE TABLE StorageType (
-    StorageTypeID INT IDENTITY(1,1) PRIMARY KEY,
-    TypeName VARCHAR(50) NOT NULL,
-    Description TEXT
-);
-
 -- Location Table
 CREATE TABLE Location (
     LocationID INT IDENTITY(1,1) PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
     Description TEXT,
-    StorageTypeID INT NOT NULL,
-    FOREIGN KEY (StorageTypeID) REFERENCES StorageType(StorageTypeID)
-);
-
--- Shelf Table for Locations
-CREATE TABLE Shelf (
-    ShelfID INT IDENTITY(1,1) PRIMARY KEY,
-    LocationID INT NOT NULL,
-    ShelfRow VARCHAR(10) NOT NULL,
-    ShelfColumn VARCHAR(10) NOT NULL,
-    Name VARCHAR(100),
-    FOREIGN KEY (LocationID) REFERENCES Location(LocationID)
 );
 
 -- UnitOfMeasurement Table
@@ -64,6 +45,7 @@ CREATE TABLE StockItem (
     StockItemID INT IDENTITY(1,1) PRIMARY KEY,
     Name VARCHAR(100) NOT NULL,
     SKU VARCHAR(50) NOT NULL UNIQUE,
+    MinimumQuantity DECIMAL(10, 2) NOT NULL DEFAULT 0,
     Description TEXT,
     StockItemGroupID INT NOT NULL,
     BaseUoMID INT NOT NULL,
@@ -94,22 +76,12 @@ CREATE TABLE Inventory (
     InventoryID INT IDENTITY(1,1) PRIMARY KEY,
     StockItemID INT NOT NULL,
     Quantity DECIMAL(10, 2) NOT NULL,
-    Status AS 
-        CASE 
-            WHEN Quantity = 0 THEN 'Out of Stock'
-            WHEN Quantity < MinimumQuantity THEN 'Low Stock'
-            WHEN Quantity = MinimumQuantity THEN 'At Minimum'
-            ELSE 'In Stock'
-        END PERSISTED, -- Computed column, always reflects latest Quantity
-
     BatchNumber VARCHAR(50),
     IsPartial BIT DEFAULT 0,
     LocationID INT NOT NULL,
-    ShelfID INT, -- Optional shelf reference
 
     FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID) ON DELETE CASCADE,
     FOREIGN KEY (LocationID) REFERENCES Location(LocationID),
-    FOREIGN KEY (ShelfID) REFERENCES Shelf(ShelfID)
 );
 
 -- Supplier Table
@@ -295,7 +267,6 @@ CREATE TABLE Customer (
     CustomerID INT IDENTITY(1,1) PRIMARY KEY,
     FirstName VARCHAR(50) NOT NULL,
     Surname VARCHAR(50) NOT NULL,
-    Role VARCHAR(50) NOT NULL,
     Email VARCHAR(50) NOT NULL,
     PhoneNumber NCHAR(10) NOT NULL
 );

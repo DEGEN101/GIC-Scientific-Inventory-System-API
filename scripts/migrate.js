@@ -3,14 +3,27 @@ const path = require("path");
 const database = require('../models');
 
 async function runMigrations() {
-  const migrationPath = path.join(__dirname, 'migrations', '001_create_tables.sql');
-  const sqlScript = fs.readFileSync(migrationPath, 'utf8');
+  const migrationsDir = path.join(__dirname, 'migrations');
 
   try { 
+    const files = fs.readdirSync(migrationsDir).filter(file => file.endsWith('.sql')).sort();
     const pool = await database.poolPromise;
-    await pool.request().query(sqlScript);
-    console.log('[+] Migrations completed');
 
+    for (const file of files) {
+        const filePath = path.join(migrationsDir, file);
+        const sqlScript = fs.readFileSync(filePath, 'utf8');
+        const batches = sqlScript.split(/\r?\n\s*GO\s*\r?\n/i).filter(b => b.trim() !== '');
+
+        console.log(`[+] Running seed: ${file}`);
+        for (const batch of batches) {
+            const trimmedBatch = batch.trim();
+            if (trimmedBatch.length > 0) {
+                await pool.request().batch(trimmedBatch); 
+            }
+        }
+    }
+
+    console.log('[+] All migrations completed');
     await database.sql.close(); // Clean disconnect
     console.log('[-] Disconnected from MSSQL');
     process.exit(0);

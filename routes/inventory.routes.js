@@ -67,23 +67,6 @@
 
 /**
  * @swagger
- * /api/inventory/shelf/{shelfId}:
- *   get:
- *     summary: Get all inventory items for a specific shelf
- *     tags: [Inventory]
- *     parameters:
- *       - in: path
- *         name: shelfId
- *         required: true
- *         schema:
- *           type: integer
- *     responses:
- *       200:
- *         description: List of inventory items on the specified shelf
- */
-
-/**
- * @swagger
  * /api/inventory:
  *   post:
  *     summary: Create a new inventory item
@@ -104,8 +87,6 @@
  *               StockItemID:
  *                 type: integer
  *               Quantity:
- *                 type: number
- *               MinimumQuantity:
  *                 type: number
  *               BatchNumber:
  *                 type: string
@@ -142,7 +123,6 @@
  *             required:
  *               - StockItemID
  *               - Quantity
- *               - MinimumQuantity
  *               - LocationID
  *               - ShelfID
  *             properties:
@@ -201,7 +181,6 @@ module.exports = (app) => {
 
     // Add custom route(s) below
     router.get("/location/:locationId", inventory.findByLocationID);
-    router.get("/shelf/:shelfId", inventory.findByShelfID);
 
     app.use('/api/inventory', router);
 }
