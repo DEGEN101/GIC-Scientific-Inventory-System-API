@@ -63,6 +63,10 @@ const routes = [
     "./routes/uom.routes",
     "./routes/uomConversion.routes",
     "./routes/product.routes",
+    "./routes/productionOrder.routes",
+    "./routes/productionConsumption.routes",
+    "./routes/productionWaste.routes",
+    "./routes/billOfMaterials.routes",
     "./routes/auditLog.routes"
 ];
 

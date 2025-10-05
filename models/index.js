@@ -66,17 +66,21 @@ database.stockItemGroup = require("./stockItemGroup.model.js")(sql, poolPromise)
 // --------------------------------
 
 // --- Unit of Measurement Related Models ---
-database.uom = require("./uom.model.js")(sql ,poolPromise);
-database.uomConversion = require("./uomConversion.model.js")(sql ,poolPromise);
+database.uom = require("./uom.model.js")(sql, poolPromise);
+database.uomConversion = require("./uomConversion.model.js")(sql, poolPromise);
 // ------------------------------------------
 
 // --- Production Related Models ---
-database.product = require("./product.model.js")(sql ,poolPromise);
+database.productionOrder = require("./productionOrder.model.js")(sql, poolPromise)
+database.product = require("./product.model.js")(sql, poolPromise);
+database.billOfMaterials = require("./billOfMaterials.model.js")(sql, poolPromise);
+database.productionConsumption = require("./productionConsumption.model.js")(sql, poolPromise);
+database.productionWaste = require("./productionWaste.model.js")(sql, poolPromise);
 // ---------------------------------
 
 
 // --- Logging Related Models ---
-database.auditLog = require("./auditLog.model.js")(sql ,poolPromise);
+database.auditLog = require("./auditLog.model.js")(sql, poolPromise);
 // -----------------------------
 
 module.exports = database;
