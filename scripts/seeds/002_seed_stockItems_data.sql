@@ -4,7 +4,8 @@ Use [GIC Inventory Database];
 INSERT INTO UnitOfMeasurement (Name, IsBaseUnit) VALUES  
     ('Roll', 1),
     ('20-Stack', 0),
-    ('25-Stack', 0);
+    ('25-Stack', 0),
+    ('grams', 1);
 
 
 INSERT INTO StockItemCategory (Name, Description) VALUES

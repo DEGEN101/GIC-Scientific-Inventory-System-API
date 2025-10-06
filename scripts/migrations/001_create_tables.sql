@@ -201,65 +201,64 @@ CREATE TABLE StockMovement (
 -- ProductionOrder Table
 CREATE TABLE ProductionOrder (
     ProductionOrderID INT IDENTITY(1,1) PRIMARY KEY,
-    StockItemID INT NOT NULL,
-    QuantityToProduce DECIMAL(10, 2) NOT NULL,
-    ScheduledDate DATE,
-    Status VARCHAR(50),
-    EmployeeID INT,
-    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
-    FOREIGN KEY (EmployeeID) REFERENCES Employees(EmployeeID) ON DELETE SET NULL
+    QuantityToProduce DECIMAL(18,2) NOT NULL,
+    ProductionDate DATETIME NOT NULL DEFAULT GETDATE(),
+    Status VARCHAR(20) NOT NULL DEFAULT 'Planned',
+    CreatedBy INT NULL,
+    Notes TEXT NULL,
+    InvoiceNumber VARCHAR(50) NULL,
+
+    FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID)
 );
 
--- ProductionWasteLog Table
-CREATE TABLE ProductionWasteLog (
-    WasteLogID INT IDENTITY(1,1) PRIMARY KEY,
-    ProductionOrderID INT NOT NULL,
-    StockItemID INT NOT NULL,
-    QuantityWasted DECIMAL(10, 2),
-    Reason TEXT,
-    UoMID INT NOT NULL,
-    FOREIGN KEY (ProductionOrderID) REFERENCES ProductionOrder(ProductionOrderID) ON DELETE CASCADE,
-    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
-    FOREIGN KEY (UoMID) REFERENCES UnitOfMeasurement(UoMID)
+-- Product Table
+CREATE TABLE Product (
+    ProductID INT IDENTITY(1,1) PRIMARY KEY,
+    ProductionOrderID INT NULL,
+    Name VARCHAR(50) NOT NULL,
+    BatchNumber VARCHAR(50) NOT NULL,
+    Quantity DECIMAL(18,2) NOT NULL,
+    Dimensions VARCHAR(50) NULL,
+
+    FOREIGN KEY (ProductionOrderID) REFERENCES ProductionOrder(ProductionOrderID) ON UPDATE CASCADE ON DELETE SET NULL
 );
 
 -- BillOfMaterials Table
 CREATE TABLE BillOfMaterials (
     BOMID INT IDENTITY(1,1) PRIMARY KEY,
-    StockItemID INT NOT NULL,
+    ProductID INT NOT NULL,
     RawMaterialID INT NOT NULL,
     QuantityRequired DECIMAL(10, 2) NOT NULL,
     UoMID INT NOT NULL,
-    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
-    FOREIGN KEY (RawMaterialID) REFERENCES StockItem(StockItemID),
+    FOREIGN KEY (ProductID) REFERENCES Product(ProductID),
+    FOREIGN KEY (RawMaterialID) REFERENCES Inventory(InventoryID),
     FOREIGN KEY (UoMID) REFERENCES UnitOfMeasurement(UoMID)
 );
 
 -- ProductionConsumption Table
 CREATE TABLE ProductionConsumption (
     ProductionOrderID INT NOT NULL,
-    StockItemID INT NOT NULL,
-    QuantityUsed DECIMAL(10, 2) NOT NULL,
-    UoMID INT NOT NULL,
-    SourceInventoryID INT,
-    PRIMARY KEY (ProductionOrderID, StockItemID),
-    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
-    FOREIGN KEY (UoMID) REFERENCES UnitOfMeasurement(UoMID),
-    FOREIGN KEY (SourceInventoryID) REFERENCES Inventory(InventoryID),
-    FOREIGN KEY (ProductionOrderID) REFERENCES ProductionOrder(ProductionOrderID) ON DELETE CASCADE
+    InventoryID INT NOT NULL,
+    QuantityUsed DECIMAL(18,2) NOT NULL,
+
+    PRIMARY KEY (ProductionOrderID, InventoryID),
+
+    FOREIGN KEY (ProductionOrderID) REFERENCES ProductionOrder(ProductionOrderID) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (InventoryID) REFERENCES Inventory(InventoryID) ON UPDATE CASCADE ON DELETE NO ACTION,
 );
 
--- FinishedGoodsOutput Table
-CREATE TABLE FinishedGoodsOutput (
-    OutputID INT IDENTITY(1,1) PRIMARY KEY,
+-- ProductionWaste Table
+CREATE TABLE ProductionWaste (
+    WasteLogID INT IDENTITY(1,1) PRIMARY KEY,
     ProductionOrderID INT NOT NULL,
-    StockItemID INT NOT NULL,
-    QuantityProduced DECIMAL(10, 2) NOT NULL,
+    InventoryID INT NOT NULL,
+    QuantityWasted DECIMAL(18,2) NOT NULL,
+    Reason TEXT NULL,
     UoMID INT NOT NULL,
-    BatchNumber VARCHAR(50),
-    FOREIGN KEY (ProductionOrderID) REFERENCES ProductionOrder(ProductionOrderID) ON DELETE CASCADE,
-    FOREIGN KEY (StockItemID) REFERENCES StockItem(StockItemID),
-    FOREIGN KEY (UoMID) REFERENCES UnitOfMeasurement(UoMID)
+
+    FOREIGN KEY (ProductionOrderID) REFERENCES ProductionOrder(ProductionOrderID) ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (InventoryID) REFERENCES Inventory(InventoryID) ON UPDATE CASCADE ON DELETE NO ACTION,
+    FOREIGN KEY (UoMID) REFERENCES UnitOfMeasurement(UoMID) ON UPDATE CASCADE ON DELETE NO ACTION
 );
 
 -- Customers Table

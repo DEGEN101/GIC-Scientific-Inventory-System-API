@@ -4,9 +4,10 @@ module.exports = (sql, poolPromise) => {
             const pool = await poolPromise;
             const result = await pool.request()
                 .input('GroupID', sql.Int, group.GroupID)
+                .input('StockItemCategoryID', sql.Int, group.StockItemCategoryID)
                 .input('Name', sql.VarChar, group.Name)
                 .input('Description', sql.VarChar, group.Description)
-                .query('INSERT INTO StockItemGroup (GroupID, Name, Description) OUTPUT INSERTED.* VALUES (@GroupID, @Name, @Description)');
+                .query('INSERT INTO StockItemGroup (GroupID, StockItemCategoryID, Name, Description) OUTPUT INSERTED.* VALUES (@GroupID, @StockItemCategoryID, @Name, @Description)');
 
             return result.recordset[0];
         },
@@ -23,6 +24,14 @@ module.exports = (sql, poolPromise) => {
                 .input('id', sql.Int, id)
                 .query('SELECT * FROM StockItemGroup WHERE GroupID = @id');
             return result.recordset[0];
+        },
+
+        findByCategoryId: async (categoryId) => {
+            const pool = await poolPromise;
+            const result = await pool.request()
+                .input('id', sql.Int, categoryId)
+                .query('SELECT * FROM StockItemGroup WHERE StockItemCategoryID = @id');
+            return result.recordset;
         },
 
         updateById: async (id, group) => {
