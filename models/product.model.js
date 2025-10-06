@@ -7,11 +7,11 @@ module.exports = (sql, poolPromise) => {
                 .input('Name', sql.VarChar, product.Name)
                 .input('BatchNumber', sql.VarChar, product.BatchNumber)
                 .input('Quantity', sql.Decimal(18,2), product.Quantity)
-                .input('Size', sql.VarChar, product.Size)
+                .input('Dimensions', sql.VarChar, product.Dimensions)
                 .query(`
-                    INSERT INTO Product (ProductionOrderID, Name, BatchNumber, Quantity, Size)
+                    INSERT INTO Product (ProductionOrderID, Name, BatchNumber, Quantity, Dimensions)
                     OUTPUT INSERTED.*
-                    VALUES (@ProductionOrderID, @Name, @BatchNumber, @Quantity, @Size)
+                    VALUES (@ProductionOrderID, @Name, @BatchNumber, @Quantity, @Dimensions)
                 `);
             return result.recordset[0];
         },
@@ -46,14 +46,14 @@ module.exports = (sql, poolPromise) => {
                 .input('Name', sql.VarChar, product.Name)
                 .input('BatchNumber', sql.VarChar, product.BatchNumber)
                 .input('Quantity', sql.Decimal(18,2), product.Quantity)
-                .input('Size', sql.VarChar, product.Size)
+                .input('Dimensions', sql.VarChar, product.Size)
                 .query(`
                     UPDATE Product
                     SET ProductionOrderID = @ProductionOrderID,
                         Name = @Name,
                         BatchNumber = @BatchNumber,
                         Quantity = @Quantity,
-                        Size = @Size
+                        Dimensions = @Dimensions
                     WHERE ProductID = @id
                 `);
             return result.rowsAffected[0];

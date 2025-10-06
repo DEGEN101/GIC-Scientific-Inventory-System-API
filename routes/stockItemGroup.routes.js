@@ -37,6 +37,25 @@
 
 /**
  * @swagger
+ * /api/StockItemGroup/category/{categoryId}:
+ *   get:
+ *     summary: Get a stock item group by stock item category ID
+ *     tags: [StockItemGroup]
+ *     parameters:
+ *       - in: path
+ *         name: categoryId
+ *         required: true
+ *         schema:
+ *           type: integer
+ *     responses:
+ *       200:
+ *         description: Stock item group found
+ *       404:
+ *         description: Stock item group not found
+ */
+
+/**
+ * @swagger
  * /api/StockItemGroup:
  *   post:
  *     summary: Create a new stock item group
@@ -117,6 +136,7 @@ module.exports = (app) => {
     registerCrudRoutes(router, stockItemGroup);
 
     // Add custom route(s) below
+    router.get("/category/:id", stockItemGroup.findByCategoryId);
 
     app.use("/api/stockItemGroup/", router);
 }

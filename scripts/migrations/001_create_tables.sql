@@ -204,11 +204,11 @@ CREATE TABLE ProductionOrder (
     QuantityToProduce DECIMAL(18,2) NOT NULL,
     ProductionDate DATETIME NOT NULL DEFAULT GETDATE(),
     Status VARCHAR(20) NOT NULL DEFAULT 'Planned',
-    ProducedBy INT NULL,
+    CreatedBy INT NULL,
     Notes TEXT NULL,
     InvoiceNumber VARCHAR(50) NULL,
 
-    FOREIGN KEY (ProducedBy) REFERENCES Employees(EmployeeID)
+    FOREIGN KEY (CreatedBy) REFERENCES Employees(EmployeeID)
 );
 
 -- Product Table
@@ -218,7 +218,7 @@ CREATE TABLE Product (
     Name VARCHAR(50) NOT NULL,
     BatchNumber VARCHAR(50) NOT NULL,
     Quantity DECIMAL(18,2) NOT NULL,
-    Size VARCHAR(50) NULL,
+    Dimensions VARCHAR(50) NULL,
 
     FOREIGN KEY (ProductionOrderID) REFERENCES ProductionOrder(ProductionOrderID) ON UPDATE CASCADE ON DELETE SET NULL
 );

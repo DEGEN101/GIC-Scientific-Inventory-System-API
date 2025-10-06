@@ -4,23 +4,22 @@ module.exports = (sql, poolPromise) => {
             const pool = await poolPromise;
             const result = await pool.request()
                 .input('QuantityToProduce', sql.Decimal(18,2), order.QuantityToProduce)
-                .input('ProductionDate', sql.DateTime, order.ProductionDate)
                 .input('Status', sql.VarChar, order.Status)
-                .input('ProducedBy', sql.Int, order.ProducedBy)
+                .input('CreatedBy', sql.Int, order.CreatedBy)
                 .input('Notes', sql.Text, order.Notes)
                 .input('InvoiceNumber', sql.VarChar, order.InvoiceNumber)
                 .query(`
                     INSERT INTO ProductionOrder 
-                    (QuantityToProduce, ProductionDate, Status, ProducedBy, Notes, InvoiceNumber)
+                    (QuantityToProduce, Status, CreatedBy, Notes, InvoiceNumber)
                     OUTPUT INSERTED.*
-                    VALUES (@QuantityToProduce, @ProductionDate, @Status, @ProducedBy, @Notes, @InvoiceNumber)
+                    VALUES (@QuantityToProduce, @Status, @CreatedBy, @Notes, @InvoiceNumber)
                 `);
             return result.recordset[0];
         },
 
         getAll: async () => {
             const pool = await poolPromise;
-            const result = await pool.request().query('SELECT * FROM ProductionOrder');
+            const result = await pool.request().query('SELECT * FROM ProductionOrder ORDER BY ProductionDate ASC');
             return result.recordset;
         },
 
@@ -39,7 +38,7 @@ module.exports = (sql, poolPromise) => {
                 .input('QuantityToProduce', sql.Decimal(18,2), order.QuantityToProduce)
                 .input('ProductionDate', sql.DateTime, order.ProductionDate)
                 .input('Status', sql.VarChar, order.Status)
-                .input('ProducedBy', sql.Int, order.ProducedBy)
+                .input('CreatedBy', sql.Int, order.CreatedBy)
                 .input('Notes', sql.Text, order.Notes)
                 .input('InvoiceNumber', sql.VarChar, order.InvoiceNumber)
                 .query(`
@@ -47,7 +46,7 @@ module.exports = (sql, poolPromise) => {
                     SET QuantityToProduce = @QuantityToProduce,
                         ProductionDate = @ProductionDate,
                         Status = @Status,
-                        ProducedBy = @ProducedBy,
+                        CreatedBy = @CreatedBy,
                         Notes = @Notes,
                         InvoiceNumber = @InvoiceNumber
                     WHERE ProductionOrderID = @id
